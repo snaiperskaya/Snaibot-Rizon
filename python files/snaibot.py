@@ -207,6 +207,8 @@ if __name__ == '__main__':
     snaibot = pythonircbot.Bot(config['SERVER']['botName'])
     snaibot.connect(config['SERVER']['server'], verbose = True)
     
+    os.system("title {} on {} in channels: {}".format(config['SERVER']['botName'], config['SERVER']['server'], config['SERVER']['channels'].replace(',', ', ')))
+    
     time.sleep(10)
     
     snaibot.sendMsg('NickServ','IDENTIFY ' + config['SERVER']['password'])
