@@ -161,7 +161,7 @@ def showMeLinks(msg, channel, nick, client, msgMatch):
     testmsg = msg.lower()
     
     if testmsg == '.help' or testmsg == '.commands' or testmsg == '.options':
-        toSend = '.help, .mods, .news'
+        toSend = '.commands, .mods, .news'
         for i in config.options('Keyword Links'):
             toSend = toSend + ', .' + i
         snaibot.sendMsg(channel, nick + ": " + toSend)
