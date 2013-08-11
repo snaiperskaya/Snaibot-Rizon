@@ -218,8 +218,9 @@ if __name__ == '__main__':
     microLog = {}
     
     #snaibot.addMsgHandler(echo)
-    snaibot.addMsgHandler(spamFilter)
-    snaibot.addMsgHandler(showModInfo)
     snaibot.addMsgHandler(showMeLinks)
+    snaibot.addMsgHandler(showModInfo)
+    snaibot.addMsgHandler(spamFilter)
+    
     
     snaibot.waitForDisconnect()
