@@ -116,16 +116,28 @@ def showModInfo(msg, channel, nick, client, msgMatch):
     testmsg = msg.lower().split(' ')
         
     if testmsg[0] == '.mod' or testmsg[0] == '.mods':
-        toSend = '.mods'
+        toSend = ''
+        modlist = []
         for i in config.options('Mod Links'):
-            toSend = toSend + ', .' + i
+            modlist.append(i)
+        modlist.sort()
+        numsends = len(modlist) / 20
+        count = 1
+        place = 0
+        while count < numsends:
+            toSend = modlist[place]
+            for i in modlist[place + 1:place + 19]:
+                toSend = toSend + ', .' + i
+            snaibot.sendMsg(nick,toSend)
+            place = place + 20
+            count = count + 1
+        toSend = modlist[place]
         try:
-            if testmsg[1] == 'show':
-                snaibot.sendMsg(channel, nick + ": " + toSend)
-            else:
-                snaibot.sendMsg(nick, nick + ": " + toSend)
+            for i in modlist[place + 1:]:
+                toSend = toSend + ', .' + i
         except:
-            snaibot.sendMsg(nick, nick + ": " + toSend)
+            pass
+        snaibot.sendMsg(nick,toSend)
         
     elif testmsg[0][0] == '.':
             
