@@ -113,20 +113,32 @@ def spamFilter(msg, channel, nick, client, msgMatch):
             
  
 def showModInfo(msg, channel, nick, client, msgMatch):
-    testmsg = msg.lower()
+    testmsg = msg.lower().split(' ')
         
-    if testmsg == '.mod' or testmsg == '.mods':
+    if testmsg[0] == '.mod' or testmsg[0] == '.mods':
         toSend = '.mods'
         for i in config.options('Mod Links'):
             toSend = toSend + ', .' + i
-        snaibot.sendMsg(nick, nick + ": " + toSend)
+        try:
+            if testmsg[1] == 'show':
+                snaibot.sendMsg(channel, nick + ": " + toSend)
+            else:
+                snaibot.sendMsg(nick, nick + ": " + toSend)
+        except:
+            snaibot.sendMsg(nick, nick + ": " + toSend)
         
-    elif testmsg[0] == '.':
+    elif testmsg[0][0] == '.':
             
             try:
-                toSend = config['Mod Links'][msg[1:]]
+                toSend = config['Mod Links'][testmsg[0][1:]]
                 toSend = toSend.strip(' ').split(',')
-                snaibot.sendMsg(nick, nick + ": " + toSend[0] + ' - Current server version is: ' + toSend[1])
+                try:
+                    if testmsg[1] == 'show':
+                        snaibot.sendMsg(channel, nick + ": " + toSend[0] + ' - Current server version is: ' + toSend[1])
+                    else:
+                        snaibot.sendMsg(nick, nick + ": " + toSend[0] + ' - Current server version is: ' + toSend[1])
+                except:
+                    snaibot.sendMsg(nick, nick + ": " + toSend[0] + ' - Current server version is: ' + toSend[1])
             except:
                 return
     
@@ -137,7 +149,7 @@ def showMeLinks(msg, channel, nick, client, msgMatch):
     testmsg = msg.lower()
     
     if testmsg == '.help' or testmsg == '.commands' or testmsg == '.options':
-        toSend = '.help, .commands, .options, .news'
+        toSend = '.help, .mods, .news'
         for i in config.options('Keyword Links'):
             toSend = toSend + ', .' + i
         snaibot.sendMsg(channel, nick + ": " + toSend)
@@ -163,7 +175,7 @@ def showMeLinks(msg, channel, nick, client, msgMatch):
     elif testmsg[0] == '.':
         
         try:
-            toSend = config['Keyword Links'][msg[1:]]
+            toSend = config['Keyword Links'][testmsg[1:]]
             snaibot.sendMsg(channel, nick + ": " + toSend)
             
         except:
@@ -183,7 +195,7 @@ if __name__ == '__main__':
     snaibot = pythonircbot.Bot(config['SERVER']['botName'])
     snaibot.connect(config['SERVER']['server'], verbose = True)
     
-    time.sleep(20)
+    time.sleep(10)
     
     snaibot.sendMsg('NickServ','IDENTIFY ' + config['SERVER']['password'])
     
