@@ -44,6 +44,8 @@ def tryBuildConfig():
         
         config['Mod Links'] = {'modname':'*link to mod*,*mod version*'}
         
+        config['Secret Links'] = {'secret':'These links will not show up in .commands and will only send via query.'}
+        
         config['NEWS'] = {'News Item':'*Insert Useful News Here*'}
         
         with open('settings.ini', 'w') as configfile:
@@ -194,7 +196,12 @@ def showMeLinks(msg, channel, nick, client, msgMatch):
                 snaibot.sendMsg(channel, nick + ": " + toSend)
                 
             except:
-                return
+                try:
+                    toSend = config['Secret Links'][testmsg[1:]]
+                    snaibot.sendMsg(nick, nick + ": " + toSend)
+                    snaibot.sendMsg(nick, "Shhh... It's a seekrit!")
+                except:
+                    return
     except:
         return
 
